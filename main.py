@@ -11,7 +11,11 @@ if __name__=="__main__":
     LCS = lab_census_system.LabCensusSystem(school, name, sample_count, filter_cnt)
     verbose_input = LCS.Search()
     res = LCS.Show()
-    print(f"最近 {str(sample_count)} 筆碩士畢業生紀錄中")
+    if (sample_count > len(verbose_input)):
+        print(f"資料不足 {sample_count} 筆，僅顯示 {len(verbose_input)} 筆資料")
+        sample_count = len(verbose_input)
+    else:
+        print(f"最近 {sample_count} 筆碩士畢業生紀錄中")
     print(f"{res[0]}\t位第一年畢業")
     print(f"{res[1]}\t位第二年畢業")
     print(f"{res[2]}\t位第三年畢業")
