@@ -1,5 +1,7 @@
 # University System of Taiwan Graduate_time parser
 
+2023-11-22 : 更新交大學號轉換規則
+
 2020-11-13 : fix some link bug
 
 2018-8-23 update: 支援顯示口試日期
