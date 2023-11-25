@@ -43,9 +43,10 @@ class VerboseBooster:
         
         # 迴圈控制變數宣告
         i = 0
+        j = 0
 
         # 利用迴圈依序進入每一筆資料
-        while  i < self.sample_count:
+        while  j < self.sample_count:
             i += 1
             now = now[:69] + str(i)
             browser.open(now.strip())
@@ -54,6 +55,7 @@ class VerboseBooster:
             # 取得學生名字，若學生名字存在data字典中，嘗試取得口試日期
             student_name = access.body.form.div.table.tbody.tr.td.table.find("th", text="研究生:").find_next_sibling().get_text()
             if student_name in self.students:
+                j += 1
                 # 將入學年以西元年表示，轉成string
                 self.students[student_name][0] = f"{str(int(self.students[student_name][0])+1911)} 年"
                 try:
