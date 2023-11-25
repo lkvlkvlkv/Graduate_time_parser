@@ -55,10 +55,14 @@ class VerboseBooster:
             # 取得學生名字，若學生名字存在data字典中，嘗試取得口試日期
             student_name = access.body.form.div.table.tbody.tr.td.table.find("th", text="研究生:").find_next_sibling().get_text()
             if student_name in self.students:
+                # 取得論文名稱，利用論文名稱判斷是否為同一位學生，若不是則繼續迴圈
+                essay_name = access.body.form.div.table.tbody.tr.td.table.find("th", text="論文名稱(外文):").find_next_sibling().get_text()
+                if essay_name != self.students[student_name][2]:
+                    continue
                 j += 1
                 # 將入學年以西元年表示，轉成string
-                self.students[student_name][0] = f"{str(int(self.students[student_name][0])+1911)} 年"
                 try:
+                    self.students[student_name][0] = f"{str(int(self.students[student_name][0])+1911)} 年"
                     oral_defense = access.body.form.div.table.tbody.tr.td.table.find("th", text="口試日期:").find_next_sibling().get_text()
                     # oral_defense = ''.join(c for c in oral_defense if c.isdigit())
                     # 於data的對應key中加入口試日期
@@ -70,15 +74,15 @@ class VerboseBooster:
                 
                 # 依照value中的畢業時間資訊分類至對應的L串列中
                 if self.students[student_name][1] == "1":
-                    self.L1.append([self.students[student_name][0], self.students[student_name][2]])
+                    self.L1.append([self.students[student_name][0], self.students[student_name][3]])
                 elif self.students[student_name][1] == "2":
-                    self.L2.append([self.students[student_name][0], self.students[student_name][2]])
+                    self.L2.append([self.students[student_name][0], self.students[student_name][3]])
                 elif self.students[student_name][1] == "2_3":
-                    self.L3.append([self.students[student_name][0], self.students[student_name][2]])
+                    self.L3.append([self.students[student_name][0], self.students[student_name][3]])
                 elif self.students[student_name][1] == "3_4":
-                    self.L4.append([self.students[student_name][0], self.students[student_name][2]])
+                    self.L4.append([self.students[student_name][0], self.students[student_name][3]])
                 elif self.students[student_name][1] == "4_beyond":
-                    self.L5.append([self.students[student_name][0], self.students[student_name][2]])
+                    self.L5.append([self.students[student_name][0], self.students[student_name][3]])
 
 
         # 輸出結果

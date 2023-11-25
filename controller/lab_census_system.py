@@ -94,6 +94,9 @@ class LabCensusSystem:
             # 取得畢業學年度
             grad_year = access.body.form.div.table.tbody.tr.td.table.find("th",text="畢業學年度:").find_next_sibling().get_text()
 
+            # 取得論文名稱，避免後面搜尋到學生同名、教授也同名的情況
+            essay_name = access.body.form.div.table.tbody.tr.td.table.find("th",text="論文名稱(英文):").find_next_sibling().get_text()
+
             # 過濾出學號中的入學年資訊
             if(self.school == "1"):
                 enter_year = id_converter.NCTU(number)
@@ -113,19 +116,19 @@ class LabCensusSystem:
             calculate = int(grad_year) - int(enter_year)
             if calculate == 0:
                 self.result[0] += 1
-                new = {student_name:[int(enter_year),"1"]}
+                new = {student_name:[int(enter_year),"1",essay_name]}
             elif calculate == 1:
                 self.result[1] += 1
-                new = {student_name:[int(enter_year),"2"]}
+                new = {student_name:[int(enter_year),"2",essay_name]}
             elif calculate == 2:
                 self.result[2] += 1
-                new = {student_name:[int(enter_year),"2_3"]}
+                new = {student_name:[int(enter_year),"2_3",essay_name]}
             elif calculate == 3:
                 self.result[3] += 1
-                new = {student_name:[int(enter_year),"3_4"]}
+                new = {student_name:[int(enter_year),"3_4",essay_name]}
             else:
                 self.result[4] += 1
-                new = {student_name:[int(enter_year),"4_beyond"]}
+                new = {student_name:[int(enter_year),"4_beyond",essay_name]}
 
             # dict(data) = { key(學生名字):value[入學年, 畢業時間] }
             self.verbose_input.update(new)
